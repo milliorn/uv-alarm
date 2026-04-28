@@ -8,6 +8,16 @@
 .history
 *.private
 
+# IDE
+.idea/
+*.iml
+
+# Unused platforms (Android-only project)
+linux/
+macos/
+windows/
+web/
+
 
 # Flutter repo-specific
 /bin/cache/
