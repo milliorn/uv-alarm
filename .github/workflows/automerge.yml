@@ -64,6 +64,7 @@ jobs:
 
     steps:
       - name: Allow — approve and merge
+        if: github.actor != github.event.pull_request.user.login
         run: |
           gh pr review "$PR_URL" --approve -b "Auto-approved: release-please release PR."
           gh pr merge "$PR_URL" --squash --auto
