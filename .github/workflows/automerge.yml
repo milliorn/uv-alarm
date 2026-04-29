@@ -1,0 +1,69 @@
+name: Automerge
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    branches: ["main"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions:
+  pull-requests: write
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  review-dependabot-pr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
+    env:
+      PR_URL: ${{ github.event.pull_request.html_url }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v3.0.0
+
+      - name: Decide
+        id: decision
+        run: |
+          ecosystem="${{ steps.metadata.outputs.package-ecosystem }}"
+          update_type="${{ steps.metadata.outputs.update-type }}"
+          if [[ "$ecosystem" == "github-actions" ]] || \
+             [[ "$update_type" == "version-update:semver-patch" ]] || \
+             [[ "$update_type" == "version-update:semver-minor" ]]; then
+            echo "action=allow" >> "$GITHUB_OUTPUT"
+          else
+            echo "action=deny" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Allow — approve and merge
+        if: steps.decision.outputs.action == 'allow'
+        run: |
+          gh pr review "$PR_URL" --approve -b "Auto-approved: **${{ steps.metadata.outputs.update-type }}** ${{ steps.metadata.outputs.package-ecosystem }} update."
+          gh pr merge "$PR_URL" --squash --auto
+
+      - name: Deny — unexpected update
+        if: steps.decision.outputs.action == 'deny'
+        run: |
+          gh pr close "$PR_URL" --comment "Auto-closed: ecosystem \`${{ steps.metadata.outputs.package-ecosystem }}\` / update-type \`${{ steps.metadata.outputs.update-type }}\` did not match any allow-list rule. Check dependabot.yml if this is unexpected."
+
+  review-release-please-pr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: "${{ github.event.pull_request.user.login == 'github-actions[bot]' && startsWith(github.event.pull_request.title, 'chore(main): release') }}"
+    env:
+      PR_URL: ${{ github.event.pull_request.html_url }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Allow — approve and merge
+        run: |
+          gh pr review "$PR_URL" --approve -b "Auto-approved: release-please release PR."
+          gh pr merge "$PR_URL" --squash --auto
