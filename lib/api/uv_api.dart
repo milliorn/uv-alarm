@@ -9,10 +9,14 @@ class UvApi {
   final String _proxyBaseUrl;
 
   UvApi({required Cache cache, required String proxyBaseUrl})
-      : _cache = cache,
-        _proxyBaseUrl = proxyBaseUrl;
+    : _cache = cache,
+      _proxyBaseUrl = proxyBaseUrl;
 
-  Future<UvData> fetch({required double lat, required double lon, required String uuid}) async {
+  Future<UvData> fetch({
+    required double lat,
+    required double lon,
+    required String uuid,
+  }) async {
     if (!_cache.isEmpty() && !_cache.isStale()) {
       return _cache.read()!;
     }
@@ -32,7 +36,7 @@ class UvApi {
     }
 
     final data = UvData.fromJson(jsonDecode(response.body));
-    
+
     await _cache.store(data);
     return data;
   }
