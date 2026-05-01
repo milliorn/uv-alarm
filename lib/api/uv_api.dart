@@ -29,7 +29,7 @@ class UvApi {
       },
     );
 
-    final response = await http.get(uri);
+    final response = await http.get(uri).timeout(const Duration(seconds: 10));
 
     if (response.statusCode != 200) {
       throw UvApiException(response.statusCode, response.body);
