@@ -1,25 +1,11 @@
-class HourlyUv {
+class UvForecastEntry {
   final DateTime time;
   final double uvi;
 
-  const HourlyUv({required this.time, required this.uvi});
+  const UvForecastEntry({required this.time, required this.uvi});
 
-  factory HourlyUv.fromJson(Map<String, dynamic> json) {
-    return HourlyUv(
-      time: DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000, isUtc: true),
-      uvi: (json['uvi'] as num).toDouble(),
-    );
-  }
-}
-
-class DailyUv {
-  final DateTime time;
-  final double uvi;
-
-  const DailyUv({required this.time, required this.uvi});
-
-  factory DailyUv.fromJson(Map<String, dynamic> json) {
-    return DailyUv(
+  factory UvForecastEntry.fromJson(Map<String, dynamic> json) {
+    return UvForecastEntry(
       time: DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000, isUtc: true),
       uvi: (json['uvi'] as num).toDouble(),
     );
@@ -31,8 +17,8 @@ class UvData {
   final DateTime sunrise;
   final DateTime sunset;
   final int clouds;
-  final List<HourlyUv> hourly;
-  final List<DailyUv> daily;
+  final List<UvForecastEntry> hourly;
+  final List<UvForecastEntry> daily;
   final String timezone;
   final int timezoneOffset;
   final DateTime fetchedAt;
@@ -51,7 +37,7 @@ class UvData {
 
   factory UvData.fromJson(Map<String, dynamic> json) {
     final current = json['current'] as Map<String, dynamic>;
-    
+
     return UvData(
       currentUvi: (current['uvi'] as num).toDouble(),
       sunrise: DateTime.fromMillisecondsSinceEpoch(
@@ -64,10 +50,10 @@ class UvData {
       ),
       clouds: (current['clouds'] as num).toInt(),
       hourly: (json['hourly'] as List? ?? [])
-          .map((h) => HourlyUv.fromJson(h as Map<String, dynamic>))
+          .map((h) => UvForecastEntry.fromJson(h as Map<String, dynamic>))
           .toList(),
       daily: (json['daily'] as List? ?? [])
-          .map((d) => DailyUv.fromJson(d as Map<String, dynamic>))
+          .map((d) => UvForecastEntry.fromJson(d as Map<String, dynamic>))
           .toList(),
       timezone: json['timezone'] as String,
       timezoneOffset: json['timezone_offset'] as int,
