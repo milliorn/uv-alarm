@@ -51,6 +51,7 @@ class UvData {
 
   factory UvData.fromJson(Map<String, dynamic> json) {
     final current = json['current'] as Map<String, dynamic>;
+    
     return UvData(
       currentUvi: (current['uvi'] as num).toDouble(),
       sunrise: DateTime.fromMillisecondsSinceEpoch(
@@ -62,10 +63,12 @@ class UvData {
         isUtc: true,
       ),
       clouds: (current['clouds'] as num).toInt(),
-      hourly: (json['hourly'] as List)
-          .map((h) => HourlyUv.fromJson(h))
+      hourly: (json['hourly'] as List? ?? [])
+          .map((h) => HourlyUv.fromJson(h as Map<String, dynamic>))
           .toList(),
-      daily: (json['daily'] as List).map((d) => DailyUv.fromJson(d)).toList(),
+      daily: (json['daily'] as List? ?? [])
+          .map((d) => DailyUv.fromJson(d as Map<String, dynamic>))
+          .toList(),
       timezone: json['timezone'] as String,
       timezoneOffset: json['timezone_offset'] as int,
       fetchedAt: json['fetched_at'] != null
