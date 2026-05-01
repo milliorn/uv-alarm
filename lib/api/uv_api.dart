@@ -32,7 +32,7 @@ class UvApi {
     final response = await http.get(uri);
 
     if (response.statusCode != 200) {
-      throw HttpException(response.statusCode, response.body);
+      throw UvApiException(response.statusCode, response.body);
     }
 
     final data = UvData.fromJson(jsonDecode(response.body));
@@ -42,12 +42,12 @@ class UvApi {
   }
 }
 
-class HttpException implements Exception {
+class UvApiException implements Exception {
   final int statusCode;
   final String body;
 
-  HttpException(this.statusCode, this.body);
+  UvApiException(this.statusCode, this.body);
 
   @override
-  String toString() => 'HttpException($statusCode): $body';
+  String toString() => 'UvApiException($statusCode): $body';
 }
