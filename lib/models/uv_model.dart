@@ -15,6 +15,8 @@ class UvForecastEntry {
       uvi: (json['uvi'] as num).toDouble(),
     );
   }
+
+  Map<String, dynamic> toJson() => {'dt': _toEpochSeconds(time), 'uvi': uvi};
 }
 
 class UvData {
@@ -70,12 +72,8 @@ class UvData {
         'sunset': _toEpochSeconds(sunset),
         'clouds': clouds,
       },
-      'hourly': hourly
-          .map((h) => {'dt': _toEpochSeconds(h.time), 'uvi': h.uvi})
-          .toList(),
-      'daily': daily
-          .map((d) => {'dt': _toEpochSeconds(d.time), 'uvi': d.uvi})
-          .toList(),
+      'hourly': hourly.map((h) => h.toJson()).toList(),
+      'daily': daily.map((d) => d.toJson()).toList(),
       'timezone': timezone,
       'timezone_offset': timezoneOffset,
       'fetched_at': fetchedAt.toIso8601String(),
