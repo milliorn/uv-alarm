@@ -17,7 +17,7 @@ class UvApi {
     required double lon,
     required String uuid,
   }) async {
-    if (!_cache.isEmpty && !_cache.isStale) {
+    if (_cache.isValid) {
       return _cache.read()!;
     }
 
