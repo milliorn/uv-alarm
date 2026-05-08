@@ -4,9 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uvalert/app.dart';
 
-void main() {
-  unawaited(
-    runZonedGuarded(
+Future<void> main() async {
+  await runZonedGuarded(
       () async {
         WidgetsFlutterBinding.ensureInitialized();
 
@@ -23,6 +22,5 @@ void main() {
         // TODO(crashes): forward to crash reporting
         // (e.g. Sentry, Firebase Crashlytics)
       },
-    ),
   );
 }
