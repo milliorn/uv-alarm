@@ -11,8 +11,10 @@ Future<void> main() async {
 
         FlutterError.onError = (details) {
           FlutterError.presentError(details);
-          // TODO(crashes): forward to crash reporting
-          // (e.g. Sentry, Firebase Crashlytics)
+          Zone.current.handleUncaughtError(
+            details.exception,
+            details.stack ?? StackTrace.empty,
+          );
         };
 
         runApp(const ProviderScope(child: UvAlertApp()));
