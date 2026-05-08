@@ -73,7 +73,8 @@ void main() {
     });
 
     test(
-      'falls through to network when isValid but read() returns null',
+      'recovers from corrupt cache: falls through to network '
+          'when isValid but read() returns null',
       () async {
         when(() => mockCache.isValid).thenReturn(true);
         when(() => mockCache.read()).thenReturn(null);
