@@ -62,7 +62,7 @@ class UvApi {
       }
 
       data = UvData.fromJson(decoded);
-    } on FormatException {
+    } on Object {
       throw UvApiException(response.statusCode, response.body);
     }
 
