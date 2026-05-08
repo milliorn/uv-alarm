@@ -51,17 +51,19 @@ class UvApi {
       throw UvApiException(response.statusCode, response.body);
     }
 
-    final dynamic decoded;
+    final UvData data;
+    
     try {
-      decoded = jsonDecode(response.body);
+      final dynamic decoded = jsonDecode(response.body);
+      if (decoded is! Map<String, dynamic>) {
+        throw UvApiException(response.statusCode, response.body);
+      }
+      data = UvData.fromJson(decoded);
+    } on UvApiException {
+      rethrow;
     } on FormatException {
       throw UvApiException(response.statusCode, response.body);
     }
-
-    if (decoded is! Map<String, dynamic>) {
-      throw UvApiException(response.statusCode, response.body);
-    }
-    final data = UvData.fromJson(decoded);
 
     await _cache.store(data);
     return data;
