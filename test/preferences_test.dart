@@ -1,6 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_platform_interface/shared_preferences_platform_interface.dart';
 import 'package:uvalert/storage/preferences.dart';
+
+class _FailingRemoveStore extends InMemorySharedPreferencesStore {
+  _FailingRemoveStore() : super.empty();
+
+  @override
+  Future<bool> remove(String key) async => false;
+}
 
 void main() {
   setUp(() {
@@ -110,6 +118,23 @@ void main() {
       await prefs.setUuid('keep-me');
       await prefs.clearCache();
       expect(prefs.uuid, 'keep-me');
+    });
+  });
+
+  group('Preferences _assertAllRemoved', () {
+    setUp(() {
+      SharedPreferencesStorePlatform.instance = _FailingRemoveStore();
+    });
+
+    test('clearCache throws StateError when a key cannot be removed', () async {
+      final prefs = await Preferences.load();
+      expect(prefs.clearCache, throwsStateError);
+    });
+
+    test('clearAll throws StateError when a key cannot be removed', () async {
+      final prefs = await Preferences.load();
+      await prefs.setUuid('x');
+      expect(prefs.clearAll, throwsStateError);
     });
   });
 
