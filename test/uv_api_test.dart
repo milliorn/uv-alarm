@@ -40,7 +40,7 @@ Map<String, dynamic> _apiJson() => {
   'daily': <Map<String, dynamic>>[],
   'timezone': 'UTC',
   'timezone_offset': 0,
-  'fetched_at': '2023-11-14T12:00:00.000Z',
+  'fetched_at': 1699963200,
 };
 
 http.Client _clientReturning(int status, Map<String, dynamic> body) {
