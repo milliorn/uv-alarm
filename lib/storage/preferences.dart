@@ -54,14 +54,22 @@ class Preferences {
       _prefs.setString(_keyCachedPayloadAt, isoTimestamp);
 
   Future<void> clearCache() async {
-    await Future.wait([
+    final results = await Future.wait([
       _prefs.remove(_keyCachedPayload),
       _prefs.remove(_keyCachedPayloadAt),
     ]);
+
+    if (results.any((ok) => !ok)) {
+      throw StateError('clearCache: one or more keys could not be removed');
+    }
   }
 
   Future<void> clearAll() async {
     final keys = _prefs.getKeys().where((k) => k.startsWith(_prefix)).toList();
-    await Future.wait<bool>(keys.map(_prefs.remove));
+    final results = await Future.wait<bool>(keys.map(_prefs.remove));
+    
+    if (results.any((ok) => !ok)) {
+      throw StateError('clearAll: one or more keys could not be removed');
+    }
   }
 }
