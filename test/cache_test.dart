@@ -8,7 +8,12 @@ DateTime _staleTimestamp() =>
     DateTime.now().toUtc().subtract(const Duration(hours: 25));
 
 UvData _makeData({DateTime? fetchedAt}) {
-  final now = fetchedAt ?? DateTime.now().toUtc();
+  final raw = fetchedAt ?? DateTime.now().toUtc();
+  // Truncate to whole seconds: epoch-seconds serialization has 1s precision.
+  final now = DateTime.fromMillisecondsSinceEpoch(
+    raw.millisecondsSinceEpoch - raw.millisecondsSinceEpoch % 1000,
+    isUtc: true,
+  );
   return UvData(
     currentUvi: 5,
     sunrise: now,
