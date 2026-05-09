@@ -62,8 +62,10 @@ class UvApi {
       }
 
       data = UvData.fromJson(decoded);
-    } on Object {
-      throw UvApiException(response.statusCode, response.body);
+    } on UvApiException {
+      rethrow;
+    } on Object catch (e) {
+      throw UvApiException(response.statusCode, 'parse error: $e');
     }
 
     await _cache.store(data);
