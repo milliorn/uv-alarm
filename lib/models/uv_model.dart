@@ -15,7 +15,7 @@ class UvForecastEntry {
       uvi: (json['uvi'] as num).toDouble(),
     );
   }
-  
+
   final DateTime time;
   final double uvi;
 
@@ -52,12 +52,14 @@ class UvData {
       sunset: _fromEpochSeconds(current['sunset'] as int),
       clouds: (current['clouds'] as num).toInt(),
       hourly: List.unmodifiable(
-        (json['hourly'] as List? ?? [])
-            .map((h) => UvForecastEntry.fromJson(h as Map<String, dynamic>)),
+        (json['hourly'] as List? ?? []).map(
+          (h) => UvForecastEntry.fromJson(h as Map<String, dynamic>),
+        ),
       ),
       daily: List.unmodifiable(
-        (json['daily'] as List? ?? [])
-            .map((d) => UvForecastEntry.fromJson(d as Map<String, dynamic>)),
+        (json['daily'] as List? ?? []).map(
+          (d) => UvForecastEntry.fromJson(d as Map<String, dynamic>),
+        ),
       ),
       timezone: json['timezone'] as String,
       timezoneOffset: json['timezone_offset'] as int,
@@ -108,14 +110,14 @@ class UvData {
 
   @override
   int get hashCode => Object.hashAll([
-        currentUvi,
-        sunrise,
-        sunset,
-        clouds,
-        timezone,
-        timezoneOffset,
-        fetchedAt,
-        ...hourly,
-        ...daily,
-      ]);
+    currentUvi,
+    sunrise,
+    sunset,
+    clouds,
+    timezone,
+    timezoneOffset,
+    fetchedAt,
+    ...hourly,
+    ...daily,
+  ]);
 }

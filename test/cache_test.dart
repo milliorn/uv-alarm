@@ -161,7 +161,7 @@ void main() {
       await cache.store(second);
 
       final result = await cache.read();
-      
+
       expect(result!.fetchedAt, second.fetchedAt);
     });
   });
