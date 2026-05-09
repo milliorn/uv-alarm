@@ -18,7 +18,7 @@ void main() {
     ],
     'timezone': 'America/New_York',
     'timezone_offset': -18000,
-    'fetched_at': '2023-11-14T12:00:00.000Z',
+    'fetched_at': 1699963200,
   };
 
   group('UvForecastEntry', () {
