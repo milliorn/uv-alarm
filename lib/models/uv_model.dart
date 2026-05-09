@@ -89,7 +89,7 @@ class UvData {
       'daily': daily.map((d) => d.toJson()).toList(),
       'timezone': timezone,
       'timezone_offset': timezoneOffset,
-      'fetched_at': fetchedAt.toIso8601String(),
+      'fetched_at': _toEpochSeconds(fetchedAt),
     };
   }
 
