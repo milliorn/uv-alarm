@@ -104,6 +104,14 @@ void main() {
       expect(data.daily, isEmpty);
     });
 
+    test('hourly and daily lists are unmodifiable', () {
+      final data = UvData.fromJson(sampleJson);
+      final extra = UvForecastEntry.fromJson(const {'dt': 0, 'uvi': 0.0});
+      
+      expect(() => data.hourly.add(extra), throwsUnsupportedError);
+      expect(data.daily.clear, throwsUnsupportedError);
+    });
+
     test('equal when all fields match', () {
       final a = UvData.fromJson(sampleJson);
       final b = UvData.fromJson(sampleJson);
