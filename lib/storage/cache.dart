@@ -32,7 +32,7 @@ class Cache {
 
       if (decoded is! Map<String, dynamic>) {
         if (kDebugMode) debugPrint('Cache.read: unexpected payload shape');
-        
+
         await _prefs.clearCache();
         return null;
       }

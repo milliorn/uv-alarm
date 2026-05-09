@@ -59,17 +59,18 @@ class Preferences {
       _prefs.remove(_keyCachedPayloadAt),
     ]);
 
-    if (results.any((ok) => !ok)) {
-      throw StateError('clearCache: one or more keys could not be removed');
-    }
+    _assertAllRemoved(results, 'clearCache');
   }
 
   Future<void> clearAll() async {
     final keys = _prefs.getKeys().where((k) => k.startsWith(_prefix)).toList();
     final results = await Future.wait<bool>(keys.map(_prefs.remove));
-    
+    _assertAllRemoved(results, 'clearAll');
+  }
+
+  void _assertAllRemoved(List<bool> results, String operation) {
     if (results.any((ok) => !ok)) {
-      throw StateError('clearAll: one or more keys could not be removed');
+      throw StateError('$operation: one or more keys could not be removed');
     }
   }
 }

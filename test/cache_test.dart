@@ -112,7 +112,7 @@ void main() {
       final data = _makeData();
 
       await cache.store(data);
-      
+
       final result = await cache.read();
 
       expect(result, isNotNull);
@@ -134,7 +134,9 @@ void main() {
       'clears cache and returns null when payload is not a JSON object',
       () async {
         await prefs.setCachedPayload('[1, 2, 3]');
+
         final result = await cache.read();
+
         expect(result, isNull);
         expect(cache.isEmpty, isTrue);
       },
@@ -144,6 +146,7 @@ void main() {
   group('Cache store', () {
     test('stores payload and timestamp', () async {
       final data = _makeData();
+
       await cache.store(data);
 
       expect(prefs.cachedPayload, isNotNull);
@@ -153,10 +156,12 @@ void main() {
     test('overwrites previously stored data', () async {
       final first = _makeData(fetchedAt: DateTime.utc(2023));
       final second = _makeData(fetchedAt: DateTime.utc(2024));
+
       await cache.store(first);
       await cache.store(second);
 
       final result = await cache.read();
+      
       expect(result!.fetchedAt, second.fetchedAt);
     });
   });
