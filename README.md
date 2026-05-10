@@ -34,11 +34,11 @@ across boundaries.
 
 ## Requirements
 
-| Tool | Version |
-| ---- | ------- |
-| Flutter | stable channel |
-| Dart SDK | ^3.11.4 |
-| Android | API 21+ |
+| Tool     | Version        |
+| -------- | -------------- |
+| Flutter  | stable channel |
+| Dart SDK | ^3.11.4        |
+| Android  | API 21+        |
 
 ## Getting Started
 
@@ -94,10 +94,10 @@ Gradle, and GitHub Actions.
 
 The app requests the following Android permissions at runtime:
 
-| Permission | Reason |
-| --------- | ------ |
+| Permission             | Reason              |
+| ---------------------- | ------------------- |
 | Location (fine/coarse) | GPS-based UV lookup |
-| Notifications | UV threshold alerts |
+| Notifications          | UV threshold alerts |
 
 Location can be replaced with a manually entered location in Settings if you
 prefer not to grant GPS access.
