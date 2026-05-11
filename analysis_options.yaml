@@ -37,7 +37,7 @@ analyzer:
 
 linter:
   rules:
-    public_member_api_docs: false
+    public_member_api_docs: true
     require_trailing_commas: false
     avoid_futureor_void: true
     unnecessary_underscores: true
