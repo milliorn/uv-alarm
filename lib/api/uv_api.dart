@@ -95,7 +95,7 @@ class UvApiException implements Exception {
   /// The HTTP status code returned by the server.
   final int statusCode;
 
-  /// The raw response body.
+  /// The response body, or a synthesized error message on parse failure.
   final String body;
 
   @override
