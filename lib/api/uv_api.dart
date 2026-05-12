@@ -98,6 +98,8 @@ class UvApiException implements Exception {
   /// The response body, or a synthesized error message on parse failure.
   final String body;
 
+  // Override toString so exception messages include the status code and body
+  // instead of the default unhelpful "Instance of 'UvApiException'".
   @override
   String toString() => 'UvApiException($statusCode): $body';
 }
