@@ -1,10 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uvalert/constants.dart';
 import 'package:uvalert/models/uv_model.dart';
 import 'package:uvalert/storage/cache.dart';
 import 'package:uvalert/storage/preferences.dart';
-
-const int _msPerSecond = 1000;
 const int _cacheMaxAgeHours = 24;
 const int _staleHours = _cacheMaxAgeHours + 1;
 const int _freshHours = _cacheMaxAgeHours - 1;
@@ -16,7 +15,7 @@ UvData _makeData({DateTime? fetchedAt}) {
   final raw = fetchedAt ?? DateTime.now().toUtc();
   // Truncate to whole seconds: epoch-seconds serialization has 1s precision.
   final now = DateTime.fromMillisecondsSinceEpoch(
-    raw.millisecondsSinceEpoch - raw.millisecondsSinceEpoch % _msPerSecond,
+    raw.millisecondsSinceEpoch - raw.millisecondsSinceEpoch % msPerSecond,
     isUtc: true,
   );
   return UvData(
