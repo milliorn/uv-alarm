@@ -5,6 +5,7 @@ import 'package:uvalert/models/uv_model.dart';
 import 'package:uvalert/storage/cache.dart';
 
 const _defaultTimeout = Duration(seconds: 10);
+const _httpOk = 200;
 
 /// HTTP client for fetching UV data from the proxy API.
 class UvApi {
@@ -62,7 +63,7 @@ class UvApi {
         .get(uri, headers: {'X-Device-ID': uuid})
         .timeout(_timeout);
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != _httpOk) {
       throw UvApiException(response.statusCode, response.body);
     }
 
