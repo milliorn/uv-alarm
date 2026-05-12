@@ -136,10 +136,9 @@ class UvData {
 
   // Override == for value equality: two UvData instances with identical fields
   // are equal regardless of whether they are the same object in memory.
-  // Needed so Riverpod/Flutter can detect when fetched data has not changed
-  // and skip unnecessary rebuilds.
-  // `other` is the Dart SDK's parameter name from Object.==; it is the
-  // right-hand operand being compared against `this`.
+  // Enables value-based comparisons in tests and correct behavior with
+  // listEquals. `other` is the Dart SDK's parameter name from Object.==; it is
+  // the right-hand operand being compared against `this`.
   @override
   bool operator ==(Object other) =>
       other is UvData &&
