@@ -5,6 +5,7 @@ import 'package:uvalert/models/uv_model.dart';
 import 'package:uvalert/storage/cache.dart';
 
 const _defaultTimeout = Duration(seconds: 10);
+const _httpOk = 200;
 
 /// HTTP client for fetching UV data from the proxy API.
 class UvApi {
@@ -62,7 +63,7 @@ class UvApi {
         .get(uri, headers: {'X-Device-ID': uuid})
         .timeout(_timeout);
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != _httpOk) {
       throw UvApiException(response.statusCode, response.body);
     }
 
@@ -98,6 +99,9 @@ class UvApiException implements Exception {
   /// The response body, or a synthesized error message on parse failure.
   final String body;
 
+  // Override toString for debuggability only - the app works without it.
+  // Without this, logs and error messages show "Instance of 'UvApiException'"
+  // which is useless. This makes it readable: "UvApiException(404): Not Found".
   @override
   String toString() => 'UvApiException($statusCode): $body';
 }

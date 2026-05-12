@@ -4,14 +4,19 @@ import 'package:uvalert/models/uv_model.dart';
 import 'package:uvalert/storage/cache.dart';
 import 'package:uvalert/storage/preferences.dart';
 
+const int _msPerSecond = 1000;
+const int _cacheMaxAgeHours = 24;
+const int _staleHours = _cacheMaxAgeHours + 1;
+const int _freshHours = _cacheMaxAgeHours - 1;
+
 DateTime _staleTimestamp() =>
-    DateTime.now().toUtc().subtract(const Duration(hours: 25));
+    DateTime.now().toUtc().subtract(const Duration(hours: _staleHours));
 
 UvData _makeData({DateTime? fetchedAt}) {
   final raw = fetchedAt ?? DateTime.now().toUtc();
   // Truncate to whole seconds: epoch-seconds serialization has 1s precision.
   final now = DateTime.fromMillisecondsSinceEpoch(
-    raw.millisecondsSinceEpoch - raw.millisecondsSinceEpoch % 1000,
+    raw.millisecondsSinceEpoch - raw.millisecondsSinceEpoch % _msPerSecond,
     isUtc: true,
   );
   return UvData(
@@ -64,7 +69,9 @@ void main() {
     });
 
     test('is not stale when timestamp is 23 hours old', () async {
-      final recent = DateTime.now().toUtc().subtract(const Duration(hours: 23));
+      final recent = DateTime.now().toUtc().subtract(
+        const Duration(hours: _freshHours),
+      );
       await cache.store(_makeData(fetchedAt: recent));
       expect(cache.isStale, isFalse);
     });

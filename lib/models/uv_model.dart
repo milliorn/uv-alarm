@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 
-DateTime _fromEpochSeconds(int s) =>
-    DateTime.fromMillisecondsSinceEpoch(s * 1000, isUtc: true);
+const _msPerSecond = 1000;
 
-int _toEpochSeconds(DateTime dt) => dt.millisecondsSinceEpoch ~/ 1000;
+DateTime _fromEpochSeconds(int s) =>
+    DateTime.fromMillisecondsSinceEpoch(s * _msPerSecond, isUtc: true);
+
+int _toEpochSeconds(DateTime dt) => dt.millisecondsSinceEpoch ~/ _msPerSecond;
 
 /// A single UV index reading at a point in time.
 @immutable
@@ -28,10 +30,17 @@ class UvForecastEntry {
   /// Serializes this entry to a JSON map.
   Map<String, dynamic> toJson() => {'dt': _toEpochSeconds(time), 'uvi': uvi};
 
+  // Override == for value equality: two entries with identical time and uvi
+  // are equal regardless of whether they are the same object in memory.
+  // Required so listEquals() in UvData.== can compare entries by value.
+  // `other` is the Dart SDK's parameter name from Object.==; it is the
+  // right-hand operand being compared against `this`.
   @override
   bool operator ==(Object other) =>
       other is UvForecastEntry && other.time == time && other.uvi == uvi;
 
+  // Override hashCode whenever == is overridden. Dart requires that objects
+  // which are == produce the same hashCode, otherwise Sets and Maps break.
   @override
   int get hashCode => Object.hash(time, uvi);
 }
@@ -125,6 +134,11 @@ class UvData {
     };
   }
 
+  // Override == for value equality: two UvData instances with identical fields
+  // are equal regardless of whether they are the same object in memory.
+  // Enables value-based comparisons in tests and correct behavior with
+  // listEquals. `other` is the Dart SDK's parameter name from Object.==; it is
+  // the right-hand operand being compared against `this`.
   @override
   bool operator ==(Object other) =>
       other is UvData &&
@@ -138,6 +152,8 @@ class UvData {
       listEquals(other.hourly, hourly) &&
       listEquals(other.daily, daily);
 
+  // Override hashCode whenever == is overridden. Dart requires that objects
+  // which are == produce the same hashCode, otherwise Sets and Maps break.
   @override
   int get hashCode => Object.hashAll([
     currentUvi,
