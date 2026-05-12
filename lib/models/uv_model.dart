@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 
-DateTime _fromEpochSeconds(int s) =>
-    DateTime.fromMillisecondsSinceEpoch(s * 1000, isUtc: true);
+const _msPerSecond = 1000;
 
-int _toEpochSeconds(DateTime dt) => dt.millisecondsSinceEpoch ~/ 1000;
+DateTime _fromEpochSeconds(int s) =>
+    DateTime.fromMillisecondsSinceEpoch(s * _msPerSecond, isUtc: true);
+
+int _toEpochSeconds(DateTime dt) => dt.millisecondsSinceEpoch ~/ _msPerSecond;
 
 /// A single UV index reading at a point in time.
 @immutable
