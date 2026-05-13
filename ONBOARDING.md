@@ -10,7 +10,7 @@ The app fetches UV data from a Vercel proxy API using GPS coordinates or a
 manually entered location, caches responses for 24 hours, and surfaces hourly
 and daily UV forecasts.
 
-**Current state (v1.1.0):** Core infrastructure is complete - models, API
+**Current state (v1.0.0+1):** Core infrastructure is complete - models, API
 client, cache, preferences, Riverpod scaffold, and a full unit test suite. The
 UI screens (`dashboard_screen`, `settings_screen`, `onboarding_screen`) and
 background service implementations are stubs. The app renders a `Placeholder`
