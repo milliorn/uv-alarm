@@ -23,7 +23,7 @@ class Cache {
       _prefs.setCachedPayload(json),
       // Intentional: use server-provided fetchedAt, not DateTime.now().
       // If the server timestamp lags real time, the cache expires sooner than
-      // _cacheMaxAgeHours — acceptable given UV data changes infrequently.
+      // cacheMaxAgeHours - acceptable given UV data changes infrequently.
       _prefs.setCachedPayloadAt(data.fetchedAt.toIso8601String()),
     ]);
   }
