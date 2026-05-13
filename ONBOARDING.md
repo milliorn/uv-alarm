@@ -9,9 +9,9 @@ The app fetches UV data from a Vercel proxy API using GPS coordinates or a
 manually entered location, caches responses for 24 hours, and surfaces hourly
 and daily UV forecasts.
 
-> **Planned platforms:** Linux desktop, iOS, and other Flutter targets are
-> planned for future releases. The platform scaffolds (`linux/`, `ios/`, etc.)
-> have not been generated yet.
+> **Planned platforms:** Linux desktop and other Flutter targets are planned
+> for future releases. The platform scaffolds (`linux/`, etc.) have not been
+> generated yet.
 
 **Current state (v1.0.0+1):** Core infrastructure is complete - models, API
 client, cache, preferences, Riverpod scaffold, and a full unit test suite. The
