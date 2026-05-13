@@ -7,7 +7,8 @@ import 'package:uvalert/storage/preferences.dart';
 /// Maximum age of cached UV data in hours before it is considered stale.
 const cacheMaxAgeHours = 24;
 
-/// SharedPreferences-backed cache for [UvData] with a 24-hour TTL.
+/// SharedPreferences-backed cache for [UvData] with a
+/// [cacheMaxAgeHours]-hour TTL.
 class Cache {
   /// Creates a [Cache] backed by the given [Preferences] instance.
   Cache(this._prefs);
