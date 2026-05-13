@@ -111,7 +111,7 @@ test/
 
 ## How the Data Flows
 
-1. A caller invokes `UvApi.fetch(lat, lon, uuid)`.
+1. A caller invokes `UvApi.fetch(lat: lat, lon: lon, uuid: uuid)`.
 2. `UvApi` checks the cache first (`Cache.isValid`). If valid, returns the
    cached `UvData` without a network call.
 3. If stale or empty, it hits the proxy: `GET /api/uv?lat=…&lon=…` with an
