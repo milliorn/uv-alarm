@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
-
-const _msPerSecond = 1000;
+import 'package:uvalert/constants.dart';
 
 DateTime _fromEpochSeconds(int s) =>
-    DateTime.fromMillisecondsSinceEpoch(s * _msPerSecond, isUtc: true);
+    DateTime.fromMillisecondsSinceEpoch(s * msPerSecond, isUtc: true);
 
-int _toEpochSeconds(DateTime dt) => dt.millisecondsSinceEpoch ~/ _msPerSecond;
+int _toEpochSeconds(DateTime dt) => dt.millisecondsSinceEpoch ~/ msPerSecond;
 
 /// A single UV index reading at a point in time.
 @immutable

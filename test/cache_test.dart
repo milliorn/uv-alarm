@@ -1,13 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uvalert/constants.dart';
 import 'package:uvalert/models/uv_model.dart';
 import 'package:uvalert/storage/cache.dart';
 import 'package:uvalert/storage/preferences.dart';
 
-const int _msPerSecond = 1000;
-const int _cacheMaxAgeHours = 24;
-const int _staleHours = _cacheMaxAgeHours + 1;
-const int _freshHours = _cacheMaxAgeHours - 1;
+const int _staleHours = cacheMaxAgeHours + 1;
+const int _freshHours = cacheMaxAgeHours - 1;
 
 DateTime _staleTimestamp() =>
     DateTime.now().toUtc().subtract(const Duration(hours: _staleHours));
@@ -16,7 +15,7 @@ UvData _makeData({DateTime? fetchedAt}) {
   final raw = fetchedAt ?? DateTime.now().toUtc();
   // Truncate to whole seconds: epoch-seconds serialization has 1s precision.
   final now = DateTime.fromMillisecondsSinceEpoch(
-    raw.millisecondsSinceEpoch - raw.millisecondsSinceEpoch % _msPerSecond,
+    raw.millisecondsSinceEpoch - raw.millisecondsSinceEpoch % msPerSecond,
     isUtc: true,
   );
   return UvData(
@@ -63,12 +62,12 @@ void main() {
       expect(cache.isStale, isFalse);
     });
 
-    test('is stale when timestamp is 25 hours old', () async {
+    test('is stale when timestamp is TTL + 1 hours old', () async {
       await cache.store(_makeData(fetchedAt: _staleTimestamp()));
       expect(cache.isStale, isTrue);
     });
 
-    test('is not stale when timestamp is 23 hours old', () async {
+    test('is not stale when timestamp is TTL - 1 hours old', () async {
       final recent = DateTime.now().toUtc().subtract(
         const Duration(hours: _freshHours),
       );
