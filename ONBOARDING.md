@@ -168,12 +168,15 @@ Releases are managed by Release Please and cut automatically on pushes to
 
 ## Open Work
 
-The following are not yet implemented (no files or directories exist yet):
+The following directories and features do not exist yet:
 
 - `lib/screens/` - `dashboard_screen`, `settings_screen`, `onboarding_screen`
 - `lib/providers/` - Riverpod providers wiring API and preferences to UI
 - `lib/services/` - `workmanager` background refresh and
   `flutter_local_notifications` alert dispatch
+
+The following are partially implemented with TODOs in existing files:
+
 - Crash reporting - TODO comments in `main.dart` mark where Sentry or
   Firebase Crashlytics should be wired in
 - Manual location - stored as a raw string; needs migration to a structured
