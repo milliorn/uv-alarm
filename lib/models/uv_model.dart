@@ -13,10 +13,10 @@ class UvForecastEntry {
   const UvForecastEntry({required this.time, required this.uvi});
 
   /// Deserializes a [UvForecastEntry] from a JSON map.
-  factory UvForecastEntry.fromJson(Map<String, dynamic> json) {
+  factory UvForecastEntry.fromJson(Map<String, Object?> json) {
     return UvForecastEntry(
-      time: _fromEpochSeconds(json['dt'] as int),
-      uvi: (json['uvi'] as num).toDouble(),
+      time: _fromEpochSeconds(json['dt']! as int),
+      uvi: (json['uvi']! as num).toDouble(),
     );
   }
 
@@ -27,7 +27,7 @@ class UvForecastEntry {
   final double uvi;
 
   /// Serializes this entry to a JSON map.
-  Map<String, dynamic> toJson() => <String, dynamic>{
+  Map<String, Object?> toJson() => <String, Object?>{
     'dt': _toEpochSeconds(time),
     'uvi': uvi,
   };
@@ -66,31 +66,31 @@ class UvData {
   /// Deserializes a [UvData] from a JSON map.
   ///
   /// Throws [FormatException] if the required `fetched_at` field is absent.
-  factory UvData.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> current =
-        json['current'] as Map<String, dynamic>;
+  factory UvData.fromJson(Map<String, Object?> json) {
+    final Map<String, Object?> current =
+        json['current']! as Map<String, Object?>;
 
     return UvData(
-      currentUvi: (current['uvi'] as num).toDouble(),
-      sunrise: _fromEpochSeconds(current['sunrise'] as int),
-      sunset: _fromEpochSeconds(current['sunset'] as int),
-      clouds: (current['clouds'] as num).toInt(),
+      currentUvi: (current['uvi']! as num).toDouble(),
+      sunrise: _fromEpochSeconds(current['sunrise']! as int),
+      sunset: _fromEpochSeconds(current['sunset']! as int),
+      clouds: (current['clouds']! as num).toInt(),
       hourly: List<UvForecastEntry>.unmodifiable(
         (json['hourly'] as List<Object>? ?? <Object>[]).map<UvForecastEntry>(
           (Object h) =>
-              UvForecastEntry.fromJson(h as Map<String, dynamic>),
+              UvForecastEntry.fromJson(h as Map<String, Object?>),
         ),
       ),
       daily: List<UvForecastEntry>.unmodifiable(
         (json['daily'] as List<Object>? ?? <Object>[]).map<UvForecastEntry>(
           (Object d) =>
-              UvForecastEntry.fromJson(d as Map<String, dynamic>),
+              UvForecastEntry.fromJson(d as Map<String, Object?>),
         ),
       ),
-      timezone: json['timezone'] as String,
-      timezoneOffset: json['timezone_offset'] as int,
+      timezone: json['timezone']! as String,
+      timezoneOffset: json['timezone_offset']! as int,
       fetchedAt: json['fetched_at'] != null
-          ? _fromEpochSeconds(json['fetched_at'] as int)
+          ? _fromEpochSeconds(json['fetched_at']! as int)
           : throw const FormatException('missing required field: fetched_at'),
     );
   }
@@ -123,8 +123,8 @@ class UvData {
   final DateTime fetchedAt;
 
   /// Serializes this instance to a JSON map.
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
+  Map<String, Object?> toJson() {
+    return <String, Object?>{
       'current': <String, num>{
         'uvi': currentUvi,
         'sunrise': _toEpochSeconds(sunrise),
