@@ -76,9 +76,7 @@ void main() {
     final ProviderContainer container = _makeContainer(_FakePlatform());
     addTearDown(container.dispose);
 
-    container
-        .read(locationProvider.notifier)
-        .setManual(lat: 51.5, lon: -0.1);
+    container.read(locationProvider.notifier).setManual(lat: 51.5, lon: -0.1);
 
     final LocationState state = container.read(locationProvider);
     expect(state, isNotNull);
