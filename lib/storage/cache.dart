@@ -37,7 +37,7 @@ class Cache {
     if (raw == null) return null;
 
     try {
-      final dynamic decoded = jsonDecode(raw);
+      final Object? decoded = jsonDecode(raw);
 
       if (decoded is! Map<String, dynamic>) {
         if (kDebugMode) debugPrint('Cache.read: unexpected payload shape');

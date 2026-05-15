@@ -73,7 +73,7 @@ class UvApi {
     final UvData data;
 
     try {
-      final dynamic decoded = jsonDecode(response.body);
+      final Object? decoded = jsonDecode(response.body);
 
       if (decoded is! Map<String, dynamic>) {
         throw UvApiException(response.statusCode, response.body);

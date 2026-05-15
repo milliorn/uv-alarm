@@ -76,14 +76,14 @@ class UvData {
       sunset: _fromEpochSeconds(current['sunset'] as int),
       clouds: (current['clouds'] as num).toInt(),
       hourly: List<UvForecastEntry>.unmodifiable(
-        (json['hourly'] as List<dynamic>? ?? <dynamic>[]).map<UvForecastEntry>(
-          (dynamic h) =>
+        (json['hourly'] as List<Object>? ?? <Object>[]).map<UvForecastEntry>(
+          (Object h) =>
               UvForecastEntry.fromJson(h as Map<String, dynamic>),
         ),
       ),
       daily: List<UvForecastEntry>.unmodifiable(
-        (json['daily'] as List<dynamic>? ?? <dynamic>[]).map<UvForecastEntry>(
-          (dynamic d) =>
+        (json['daily'] as List<Object>? ?? <Object>[]).map<UvForecastEntry>(
+          (Object d) =>
               UvForecastEntry.fromJson(d as Map<String, dynamic>),
         ),
       ),
