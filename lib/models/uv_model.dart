@@ -27,7 +27,7 @@ class UvForecastEntry {
   final double uvi;
 
   /// Serializes this entry to a JSON map.
-  Map<String, dynamic> toJson() => {'dt': _toEpochSeconds(time), 'uvi': uvi};
+  Map<String, dynamic> toJson() => <String, dynamic>{'dt': _toEpochSeconds(time), 'uvi': uvi};
 
   // Override == for value equality: two entries with identical time and uvi
   // are equal regardless of whether they are the same object in memory.
@@ -64,7 +64,7 @@ class UvData {
   ///
   /// Throws [FormatException] if the required `fetched_at` field is absent.
   factory UvData.fromJson(Map<String, dynamic> json) {
-    final current = json['current'] as Map<String, dynamic>;
+    final Map<String, dynamic> current = json['current'] as Map<String, dynamic>;
 
     return UvData(
       currentUvi: (current['uvi'] as num).toDouble(),
@@ -72,12 +72,12 @@ class UvData {
       sunset: _fromEpochSeconds(current['sunset'] as int),
       clouds: (current['clouds'] as num).toInt(),
       hourly: List.unmodifiable(
-        (json['hourly'] as List? ?? []).map(
+        (json['hourly'] as List? ?? <dynamic>[]).map(
           (h) => UvForecastEntry.fromJson(h as Map<String, dynamic>),
         ),
       ),
       daily: List.unmodifiable(
-        (json['daily'] as List? ?? []).map(
+        (json['daily'] as List? ?? <dynamic>[]).map(
           (d) => UvForecastEntry.fromJson(d as Map<String, dynamic>),
         ),
       ),
@@ -118,15 +118,15 @@ class UvData {
 
   /// Serializes this instance to a JSON map.
   Map<String, dynamic> toJson() {
-    return {
-      'current': {
+    return <String, dynamic>{
+      'current': <String, num>{
         'uvi': currentUvi,
         'sunrise': _toEpochSeconds(sunrise),
         'sunset': _toEpochSeconds(sunset),
         'clouds': clouds,
       },
-      'hourly': hourly.map((h) => h.toJson()).toList(),
-      'daily': daily.map((d) => d.toJson()).toList(),
+      'hourly': hourly.map((UvForecastEntry h) => h.toJson()).toList(),
+      'daily': daily.map((UvForecastEntry d) => d.toJson()).toList(),
       'timezone': timezone,
       'timezone_offset': timezoneOffset,
       'fetched_at': _toEpochSeconds(fetchedAt),
@@ -154,7 +154,7 @@ class UvData {
   // Override hashCode whenever == is overridden. Dart requires that objects
   // which are == produce the same hashCode, otherwise Sets and Maps break.
   @override
-  int get hashCode => Object.hashAll([
+  int get hashCode => Object.hashAll(<Object?>[
     currentUvi,
     sunrise,
     sunset,
