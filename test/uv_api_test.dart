@@ -29,21 +29,21 @@ UvData _makeData() => UvData(
   fetchedAt: DateTime.utc(2023, 11, 14, 12),
 );
 
-Map<String, dynamic> _apiJson() => <String, dynamic>{
+Map<String, Object?> _apiJson() => <String, Object?>{
   'current': <String, num>{
     'uvi': 5.0,
     'sunrise': 1699945200,
     'sunset': 1699988400,
     'clouds': 0,
   },
-  'hourly': <Map<String, dynamic>>[],
-  'daily': <Map<String, dynamic>>[],
+  'hourly': <Map<String, Object?>>[],
+  'daily': <Map<String, Object?>>[],
   'timezone': 'UTC',
   'timezone_offset': 0,
   'fetched_at': 1699963200,
 };
 
-http.Client _clientReturning(int status, Map<String, dynamic> body) {
+http.Client _clientReturning(int status, Map<String, Object?> body) {
   return MockClient((_) async => http.Response(jsonEncode(body), status));
 }
 
@@ -129,7 +129,7 @@ void main() {
       final UvApi api = UvApi(
         cache: mockCache,
         proxyBaseUrl: 'http://example.com',
-        httpClient: _clientReturning(500, <String, dynamic>{
+        httpClient: _clientReturning(500, <String, Object?>{
           'error': 'server error',
         }),
       );

@@ -54,7 +54,7 @@ class UvApi {
     }
 
     final Uri uri = Uri.parse('$_proxyBaseUrl/api/uv').replace(
-      queryParameters: <String, dynamic>{
+      queryParameters: <String, String>{
         'lat': lat.toString(),
         'lon': lon.toString(),
       },
