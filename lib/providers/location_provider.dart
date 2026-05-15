@@ -19,9 +19,7 @@ class LocationNotifier extends Notifier<LocationState> {
 
     if (permission == LocationPermission.deniedForever ||
         permission == LocationPermission.denied) {
-      throw const PermissionDeniedException(
-        'Location permission denied.',
-      );
+      throw const PermissionDeniedException('Location permission denied.');
     }
 
     final position = await Geolocator.getCurrentPosition(
@@ -31,5 +29,10 @@ class LocationNotifier extends Notifier<LocationState> {
     );
 
     state = (lat: position.latitude, lon: position.longitude);
+  }
+
+  /// Overrides state with manually supplied coordinates.
+  void setManual({required double lat, required double lon}) {
+    state = (lat: lat, lon: lon);
   }
 }
