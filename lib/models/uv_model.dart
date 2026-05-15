@@ -27,7 +27,10 @@ class UvForecastEntry {
   final double uvi;
 
   /// Serializes this entry to a JSON map.
-  Map<String, dynamic> toJson() => <String, dynamic>{'dt': _toEpochSeconds(time), 'uvi': uvi};
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'dt': _toEpochSeconds(time),
+    'uvi': uvi,
+  };
 
   // Override == for value equality: two entries with identical time and uvi
   // are equal regardless of whether they are the same object in memory.
@@ -64,7 +67,8 @@ class UvData {
   ///
   /// Throws [FormatException] if the required `fetched_at` field is absent.
   factory UvData.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> current = json['current'] as Map<String, dynamic>;
+    final Map<String, dynamic> current =
+        json['current'] as Map<String, dynamic>;
 
     return UvData(
       currentUvi: (current['uvi'] as num).toDouble(),
