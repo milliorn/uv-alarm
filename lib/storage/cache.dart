@@ -39,7 +39,7 @@ class Cache {
     try {
       final Object? decoded = jsonDecode(raw);
 
-      if (decoded is! Map<String, dynamic>) {
+      if (decoded is! Map<String, Object?>) {
         if (kDebugMode) debugPrint('Cache.read: unexpected payload shape');
 
         await _prefs.clearCache();

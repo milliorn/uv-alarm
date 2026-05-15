@@ -75,7 +75,7 @@ class UvApi {
     try {
       final Object? decoded = jsonDecode(response.body);
 
-      if (decoded is! Map<String, dynamic>) {
+      if (decoded is! Map<String, Object?>) {
         throw UvApiException(response.statusCode, response.body);
       }
 
