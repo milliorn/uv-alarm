@@ -26,6 +26,9 @@ class _FakePlatform extends GeolocatorPlatform {
   Future<Position> getCurrentPosition({
     LocationSettings? locationSettings,
   }) async {
+    if (positionResult == null) {
+      throw StateError('_FakePlatform: positionResult not set for this test');
+    }
     return positionResult!;
   }
 }
